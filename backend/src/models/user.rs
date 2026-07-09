@@ -1,23 +1,23 @@
-use serde::{Deserialize, Serialize};
+use serde::{Serialize, Deserialize};
+use diesel::prelude::*;
+use crate::schema::users;
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Queryable, Insertable, Serialize, Deserialize)]
+#[table_name = "users"]
 pub struct User {
+    pub id: i32,
+    pub name: String,
     pub email: String,
-    pub password: String,
+    pub password_hash: String,
+    pub user_type: String, // 'adopter' or 'shelter'
+    pub legal_accepted: bool,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Deserialize)]
 pub struct NewUser {
     pub name: String,
-    pub surname: Option<String>,
     pub email: String,
     pub password: String,
-    pub phone: Option<String>,
-    pub city: Option<String>,
-    pub association_name: Option<String>,
-    pub contact_person: Option<String>,
-    pub address: Option<String>,
-    pub description: Option<String>,
-    pub verification_documents: Option<String>,
-    pub accepted_terms: bool,
+    pub user_type: String,
+    pub legal_accepted: bool,
 }
